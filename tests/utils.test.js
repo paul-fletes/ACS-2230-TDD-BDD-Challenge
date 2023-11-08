@@ -64,20 +64,56 @@ it("Should create a new (object) Item with name and price", function () {
   expect(item).to.have.property("quantity", 1)
 })
 
-it("Should return an array containing all items in cart")
+it("Should return an array containing all items in cart", function () {
+  const cart = utils.getShoppingCart();
+  expect(cart).to.be.an('array');
+})
 
-it("Should add a new item to the shopping cart")
+it("Should add a new item to the shopping cart", function () {
+  const item = utils.createItem('apple', 0.99);
+  utils.addItemToCart(item);
+  const shoppingCart = utils.getShoppingCart();
+  expect(shoppingCart).to.include(item);
+})
 
-it("Should return the number of items in the cart")
+it("Should return the number of items in the cart", function () {
+  const numItems = utils.getNumItemsInCart();
+  expect(numItems).to.be.a('number');
+})
 
-it("Should remove items from cart")
+it("Should remove items from cart", function () {
+  const removedItem = utils.createItem('apple', 0.99);
+  utils.addItemToCart(removedItem);
+  utils.removeItemFromCart(removedItem);
+  const updatedCart = utils.getShoppingCart();
+  expect(updatedCart).to.not.include(removedItem);
+  expect(removedItem).to.have.property("quantity", 1);
+})
 
 // ========================================================
 // Stretch Challenges
 // ========================================================
 
-it("Should update the count of items in the cart")
+it("Should update the count of items in the cart", function () {
+  const newItem = utils.createItem("apple", 0.99)
+  utils.addItemToCart(newItem);
+  utils.addItemToCart(newItem);
+  const numItems = utils.getNumItemsInCart();
+  expect(numItems).to.equal(2);
+})
 
-it("Should validate that an empty cart has 0 items")
+it("Should validate that an empty cart has 0 items", function () {
+  const cartItems = utils.getNumItemsInCart();
+  expect(cartItems).to.equal(0);
+})
 
-it("Should return the total cost of all items in the cart")
+it("Should return the total cost of all items in the cart", function () {
+  const item1 = utils.createItem("banana", 0.99);
+  const item2 = utils.createItem("avocado", 1.99);
+  item1.quantity = 2;
+  item2.quantity = 3;
+  utils.addItemToCart(item1);
+  utils.addItemToCart(item2);
+  const totalCost = utils.getTotalCost();
+  expect(totalCost).to.equal(7.95)
+})
